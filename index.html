@@ -11,6 +11,7 @@
       if (document.getElementById('encodeCheckbox').checked) {
         try {
           data = encodeURIComponent(data);
+          data = "U" + Data + ";"
         }
         catch (e) {
           console.log(e);
