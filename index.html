@@ -110,118 +110,118 @@
       }
     };
 
-    function parseXml(xml) {
-      if (window.DOMParser) {
-        var parser = new DOMParser();
+    // function parseXml(xml) {
+    //   if (window.DOMParser) {
+    //     var parser = new DOMParser();
 
-        return parser.parseFromString(xml, 'text/xml');
-      }
-      else {
-        var result = createXmlDocument();
+    //     return parser.parseFromString(xml, 'text/xml');
+    //   }
+    //   else {
+    //     var result = createXmlDocument();
 
-        result.async = 'false';
-        result.loadXML(xml);
+    //     result.async = 'false';
+    //     result.loadXML(xml);
 
-        return result;
-      }
-    };
+    //     return result;
+    //   }
+    // };
 
-    function createXmlDocument() {
-      var doc = null;
+    // function createXmlDocument() {
+    //   var doc = null;
 
-      if (document.implementation && document.implementation.createDocument) {
-        doc = document.implementation.createDocument('', '', null);
-      }
-      else if (window.ActiveXObject) {
-        doc = new ActiveXObject('Microsoft.XMLDOM');
-      }
+    //   if (document.implementation && document.implementation.createDocument) {
+    //     doc = document.implementation.createDocument('', '', null);
+    //   }
+    //   else if (window.ActiveXObject) {
+    //     doc = new ActiveXObject('Microsoft.XMLDOM');
+    //   }
 
-      return doc;
-    };
+    //   return doc;
+    // };
 
-    function decodeFromUri() {
-      try {
-        document.getElementById('textarea').value = decodeURIComponent(document.getElementById('textarea').value)
-      }
-      catch (e) {
-        console.log(e);
-        alert('decodeURIComponent failed: ' + e);
-      }
-    };
+    // function decodeFromUri() {
+    //   try {
+    //     document.getElementById('textarea').value = decodeURIComponent(document.getElementById('textarea').value)
+    //   }
+    //   catch (e) {
+    //     console.log(e);
+    //     alert('decodeURIComponent failed: ' + e);
+    //   }
+    // };
 
-    function getTextContent(node) {
-      return (node != null) ? node[(node.textContent === undefined) ? 'text' : 'textContent'] : '';
-    };
+    // function getTextContent(node) {
+    //   return (node != null) ? node[(node.textContent === undefined) ? 'text' : 'textContent'] : '';
+    // };
 
-    function normalizeXml() {
-      try {
-        var str = document.getElementById('textarea').value;
-        str = str.replace(/>\s*/g, '>');  // Replace "> " with ">"
-        str = str.replace(/\s*</g, '<');  // Replace "< " with "<"
-        document.getElementById('textarea').value = str;
-      }
-      catch (e) {
-        alert(e.message);
-      }
-    };
+    // function normalizeXml() {
+    //   try {
+    //     var str = document.getElementById('textarea').value;
+    //     str = str.replace(/>\s*/g, '>');  // Replace "> " with ">"
+    //     str = str.replace(/\s*</g, '<');  // Replace "< " with "<"
+    //     document.getElementById('textarea').value = str;
+    //   }
+    //   catch (e) {
+    //     alert(e.message);
+    //   }
+    // };
 
-    function formatXml() {
-      try {
-        var xmlDoc = new DOMParser().parseFromString(document.getElementById('textarea').value, 'application/xml');
-        var xsltDoc = new DOMParser().parseFromString([
-          // describes how we want to modify the XML - indent everything
-          '<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform">',
-          '  <xsl:strip-space elements="*"/>',
-          '  <xsl:template match="para[content-style][not(text())]">', // change to just text() to strip space in text nodes
-          '    <xsl:value-of select="normalize-space(.)"/>',
-          '  </xsl:template>',
-          '  <xsl:template match="node()|@*">',
-          '    <xsl:copy><xsl:apply-templates select="node()|@*"/></xsl:copy>',
-          '  </xsl:template>',
-          '  <xsl:output indent="yes"/>',
-          '</xsl:stylesheet>'
-        ].join('\n'), 'application/xml');
+    // function formatXml() {
+    //   try {
+    //     var xmlDoc = new DOMParser().parseFromString(document.getElementById('textarea').value, 'application/xml');
+    //     var xsltDoc = new DOMParser().parseFromString([
+    //       // describes how we want to modify the XML - indent everything
+    //       '<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform">',
+    //       '  <xsl:strip-space elements="*"/>',
+    //       '  <xsl:template match="para[content-style][not(text())]">', // change to just text() to strip space in text nodes
+    //       '    <xsl:value-of select="normalize-space(.)"/>',
+    //       '  </xsl:template>',
+    //       '  <xsl:template match="node()|@*">',
+    //       '    <xsl:copy><xsl:apply-templates select="node()|@*"/></xsl:copy>',
+    //       '  </xsl:template>',
+    //       '  <xsl:output indent="yes"/>',
+    //       '</xsl:stylesheet>'
+    //     ].join('\n'), 'application/xml');
 
-        var xsltProcessor = new XSLTProcessor();
-        xsltProcessor.importStylesheet(xsltDoc);
-        var resultDoc = xsltProcessor.transformToDocument(xmlDoc);
-        var resultXml = new XMLSerializer().serializeToString(resultDoc);
+    //     var xsltProcessor = new XSLTProcessor();
+    //     xsltProcessor.importStylesheet(xsltDoc);
+    //     var resultDoc = xsltProcessor.transformToDocument(xmlDoc);
+    //     var resultXml = new XMLSerializer().serializeToString(resultDoc);
 
-        document.getElementById('textarea').value = resultXml;
-      }
-      catch (e) {
-        alert(e.message);
-      }
-    };
+    //     document.getElementById('textarea').value = resultXml;
+    //   }
+    //   catch (e) {
+    //     alert(e.message);
+    //   }
+    // };
 
-    function formatJson(indent) {
-      try {
-        var str = document.getElementById('textarea').value;
-        document.getElementById('textarea').value = JSON.stringify(JSON.parse(str), null, indent);
-      }
-      catch (e) {
-        alert(e.message);
-      }
-    };
+    // function formatJson(indent) {
+    //   try {
+    //     var str = document.getElementById('textarea').value;
+    //     document.getElementById('textarea').value = JSON.stringify(JSON.parse(str), null, indent);
+    //   }
+    //   catch (e) {
+    //     alert(e.message);
+    //   }
+    // };
 
-    function jsVar() {
-      try {
-        var str = document.getElementById('textarea').value;
-        var lines = str.split('\n');
-        var result = [];
+    // function jsVar() {
+    //   try {
+    //     var str = document.getElementById('textarea').value;
+    //     var lines = str.split('\n');
+    //     var result = [];
 
-        for (var i = 0; i < lines.length; i++) {
-          if (i < lines.length - 1 || lines[i].length > 0) {
-            result.push('\'' + lines[i].replace(/\\/g, '\\\\').replace(/\'/g, '\\\'') + '\\n\'');
-          }
-        }
+    //     for (var i = 0; i < lines.length; i++) {
+    //       if (i < lines.length - 1 || lines[i].length > 0) {
+    //         result.push('\'' + lines[i].replace(/\\/g, '\\\\').replace(/\'/g, '\\\'') + '\\n\'');
+    //       }
+    //     }
 
-        document.getElementById('textarea').value = result.join(' +\n');
-      }
-      catch (e) {
-        alert(e.message);
-      }
-    };
+    //     document.getElementById('textarea').value = result.join(' +\n');
+    //   }
+    //   catch (e) {
+    //     alert(e.message);
+    //   }
+    // };
 
     function checkURI(data) {
       var tokens = data.split('%');
@@ -381,7 +381,7 @@
     <div style="display:flex;align-items:center;opacity:0.7;">
       <img src="logo.svg" style="width:28px;" />
       <span style="font-family:Helvetica;font-weight:700;font-size:20px;margin-left:4px;">draw.io</span>
-      <h2 style="text-align:center;width:100%;margin:10px;">Inflate/deflate, URL encode/decode</h2>
+      <h2 style="text-align:center;width:100%;margin:10px;">URL encode/decode</h2>
     </div>
     <hr>
     <br>
@@ -390,10 +390,10 @@
     <br /><br />
     <form>
       <input type="checkbox" id="encodeCheckbox" checked="checked" /> URL Encode&nbsp;
-      <input type="checkbox" id="deflateCheckbox" checked="checked" /> Deflate&nbsp;
-      <input type="checkbox" id="base64Checkbox" checked="checked" /> Base64&nbsp;&nbsp;
-      <button onclick="removeLinebreaks(document.getElementById('textarea').value);return false;">Remove
-        linebreaks</button>&nbsp;
+      <!-- <input type="checkbox" id="deflateCheckbox" checked="checked" /> Deflate&nbsp;
+      <input type="checkbox" id="base64Checkbox" checked="checked" /> Base64&nbsp;&nbsp; -->
+      <!-- <button onclick="removeLinebreaks(document.getElementById('textarea').value);return false;">Remove
+        linebreaks</button>&nbsp; -->
       <button
         onclick="document.getElementById('textarea').value = encodeURIComponent(document.getElementById('textarea').value);return false;">URL
         Encode</button>&nbsp;
@@ -402,19 +402,19 @@
       <button onclick="decode(document.getElementById('textarea').value);return false;">Decode</button>&nbsp;
       (<span id="count">0</span> chars)
       <br>
-      <button
+      <!-- <button
         onclick="document.getElementById('textarea').value=escape(document.getElementById('textarea').value);return false;">Escape</button>&nbsp;
       <button
         onclick="document.getElementById('textarea').value=unescape(document.getElementById('textarea').value);return false;">Unescape</button>&nbsp;
       <button
         onclick="document.getElementById('textarea').value=btoa(document.getElementById('textarea').value);return false;">btoa</button>
       <button
-        onclick="document.getElementById('textarea').value=atob(document.getElementById('textarea').value);return false;">atob</button>
-      <button onclick="normalizeXml();return false;">Normalize XML</button>
+        onclick="document.getElementById('textarea').value=atob(document.getElementById('textarea').value);return false;">atob</button> -->
+      <!-- <button onclick="normalizeXml();return false;">Normalize XML</button>
       <button onclick="formatXml();return false;">Format XML</button>
       <button onclick="formatJson(2);return false;">Format JSON</button>
       <button onclick="formatJson();return false;">Normalize JSON</button>
-      <button onclick="jsVar();return false;">JS variable</button>
+      <button onclick="jsVar();return false;">JS variable</button> -->
       <br>
       <button onclick="checkMxFile();return false;">Check mxFile</button>
       <button onclick="correctMxFile();return false;">Correct mxFile</button>
